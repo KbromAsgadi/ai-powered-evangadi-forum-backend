@@ -3,12 +3,21 @@ dotenv.config();
 import mysql from 'mysql2/promise';
 
 // Database connection pool
+// export const db = mysql.createPool({
+//   host: process.env.DB_HOST || 'localhost',
+//   user: process.env.DB_USER || 'root',
+//   password: process.env.DB_PASS || '',
+//   port: process.env.DB_PORT || 8889,
+//   database: process.env.DB_NAME || 'forum',
+// });
+
 export const db = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '',
-  port: process.env.DB_PORT || 8889,
+  port: Number(process.env.DB_PORT) || 8889,
   database: process.env.DB_NAME || 'forum',
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
 });
 
 const ensureParams = params => {
